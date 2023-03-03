@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Funds Transfer</h1>
+    <form
+      method="post"
+      action="#"
+      data-th-action="@{/transfer}"
+      data-th-object="${transfer}"
+    >
+      <table>
+        <tr>
+          <td><label for="fromAccount">From account: </label></td>
+          <td>
+            <input list="fromAccount" name="fromAccount" required />
+            <datalist name="fromAccount" id="fromAccount" required>
+              <select>
+                <option
+                  data-th-each="account:${accounts}"
+                  data-th-value="${account.accountId}"
+                  data-th-text="${account.show}"
+                ></option>
+              </select>
+            </datalist>
+          </td>
+          <td>
+            <span
+              data-th-if="${#fields.hasErrors('fromAccount')}"
+              data-th-errors="*{fromAccount}"
+            ></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label>To account: </label></td>
+          <td>
+            <input list="toAccount" name="toAccount" required />
+            <datalist name="toAccount" id="toAccount" required>
+              <select>
+                <option
+                  data-th-each="account:${accounts}"
+                  data-th-value="${account.accountId}"
+                  data-th-text="${account.show}"
+                ></option>
+              </select>
+            </datalist>
+          </td>
+          <td>
+            <span
+              data-th-if="${#fields.hasErrors('toAccount')}"
+              data-th-errors="*{toAccount}"
+            ></span>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="amount">Amount: </label></td>
+          <td>
+            <input
+              type="number"
+              name="amount"
+              id="amount"
+              data-th-field="*{amount}"
+              step=".01"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><label for="comments">Comments: </label></td>
+          <td>
+            <textarea
+              type="text"
+              name="comments"
+              id="comments"
+              data-th-field="*{comments}"
+              placeholder="Type here"
+            ></textarea>
+          </td>
+        </tr>
+      </table>
+      <div data-th-if="${#fields.hasErrors('global')}">
+        <p
+          data-th-each="err: ${#fields.errors('global')}"
+          data-th-text="${err}"
+        ></p>
+      </div>
+      <button type="submit">Transfer</button>
+    </form>
+  </body>
+</html>
